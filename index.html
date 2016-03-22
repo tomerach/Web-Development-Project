@@ -91,33 +91,31 @@
       <div class="row">
         <div class="col l6 s12">
           <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <p class="grey-text text-lighten-4">We are a team of college students.</br>We built this website as part of our "Web Development" course.</br>AZRIELI - College of Engineering.</p>
 
 
         </div>
         <div class="col l3 s12">
           <h5 class="white-text">Settings</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="https://github.com/tomerach/Web-Development-Project">Visit our GitHub page</a></li>
+            <li><a class="white-text" href="http://www.jce.ac.il/">Our College</a></li>
+            
           </ul>
         </div>
         <div class="col l3 s12">
           <h5 class="white-text">Connect</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="mailto:aryekogan@gmail.com?subject=Shift Organizer">Arye Kogan</a></li>
+            <li><a class="white-text" href="mailto:tomera90@gmail.com?subject=Shift Organizer">Tomer Achdut</a></li>
+            <li><a class="white-text" href="mailto:amitayben@gmail.com?subject=Shift Organizer">Amitay Ben-Atar</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      This website created with <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
       </div>
     </div>
   </footer>
@@ -154,6 +152,60 @@
 		</div>
 		<div class="modal-footer">
 			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "loginBtn">LOGIN</a>
+		</div>
+	</div>
+
+
+<div id="modal2" class="modal">
+		<div class="modal-content">
+			<h4>Add new user</h4>
+			<form class="col s12">
+			  <div class="row">
+				<div class="input-field col s6">
+				  <i class="material-icons prefix">account_circle</i>
+				  <input id="fName" type="text" class="validate">
+				  <label for="fName">First Name</label>
+				</div>
+				<div class="input-field col s6">
+				  <i class="material-icons prefix">account_circle</i>
+				  <input id="lName" type="text" class="validate">
+				  <label for="lName">Last Name</label>
+				</div>
+			  </div>
+			  
+			  <div class="row">
+				<div class="input-field col s6">
+				  <i class="material-icons prefix">phone</i>
+				  <input id="icon_telephone" type="tel" class="validate">
+				  <label for="icon_telephone">Telephone</label>
+				</div>
+				
+					
+					  <div class="col s3"><p><b>Admin permissions:</b></p></div>
+					  <div class="switch col s3">
+						<label>
+						  Off
+						  <input type="checkbox" id="permissions">
+						  <span class="lever" id="permissionsSpan"></span>
+						  On
+						</label>
+					  </div>
+					
+				 
+			  </div>
+			  
+			  <div class="row">
+				<div class="input-field col s12">
+				  <input id="email" type="email" class="validate">
+				  <label for="email" data-error="You forgot @">Email Address</label>
+				</div>
+			  </div>
+			  
+			</form>
+		</div>
+		
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "loginBtn">SUBMIT</a>
 		</div>
 	</div>
 </html>

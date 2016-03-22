@@ -54,10 +54,10 @@ function loadAdminPage(){
 	
 	$("#cont1").append('<div class="row center" id = "row1">');
 	
-	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light lime tooltipped" data-position="left" data-delay="50" data-tooltip="Add new user" type="submit" name="action" id = "addBtn"></button>');
-	$("#clearBtn").append('<i class="material-icons">add</i>');
+	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light lime tooltipped modal-trigger" href="#modal2" data-position="left" data-delay="50" data-tooltip="Add new user" type="submit" name="action" id = "addBtn"></button>');
+	$("#addBtn").append('<i class="material-icons">add</i>');
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Delete user" type="submit" name="action" id = "deleteBtn"></button>');
-	$("#clearBtn").append('<i class="material-icons">delete</i>');
+	$("#deleteBtn").append('<i class="material-icons">delete</i>');
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="top" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
 	$("#clearBtn").append('<i class="material-icons">clear_all</i>');
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light grey tooltipped" data-position="right" data-delay="50" data-tooltip="Print your selection" type="submit" name="action" id = "printBtn"></button>');
@@ -67,6 +67,7 @@ function loadAdminPage(){
 	
 
 	$('.tooltipped').tooltip({delay: 50});
+	$('.modal-trigger').leanModal();
 }
 
 function loadUserPage(){
@@ -75,6 +76,9 @@ function loadUserPage(){
 	$('#parallexPic').attr("src", "Pics/background2.jpg");
 	$("#index-banner").css('min-height', '200px');
 	$("#cont1").empty();
+	
+	$("#cont1").append('<h1>Welcome [Username]');
+	
 	$("#cont1").append('<div class="row center" id = "row1">');
 	
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="left" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
