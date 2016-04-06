@@ -205,7 +205,7 @@
 		</div>
 		
 		<div class="modal-footer">
-			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "loginAddBtn">SUBMIT</a>
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "loginBtn">SUBMIT</a>
 		</div>
 	</div>
 </html>

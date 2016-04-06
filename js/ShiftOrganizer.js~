@@ -84,19 +84,18 @@ function loadAdminPage(user){
 	$('.modal-trigger').leanModal();
 
 	$("#loginAddBtn").click(function(event){
-		for(var i=1; i<=employeeID; i++)
-			if(JSON.parse(localStorage.getItem(i.toString())).firstName == $("#fName").val()){
-				alert("User exists, pleae choose another username");
-				return;
-		}		
-
 		var obj = new Object();
 		obj.firstName = $("#fName").val();
 		obj.lastName = $("#lName").val();	
 		obj.telephone = $("#icon_telephone").val();
 		obj.email = $("#email").val();
 
-		//alert($('#permissions').val());
+		for(var i=1; i<=employeeID; i++)
+			if(JSON.parse(localStorage.getItem(i.toString())).firstName == user){
+				alert("User exists, pleae choose another username");
+				return;
+		}
+		alert($('#permissions').val());
 		alert("Empoyee Registered!!");
 		employeeID++;
 		localStorage.setItem(employeeID.toString(), JSON.stringify(obj));
