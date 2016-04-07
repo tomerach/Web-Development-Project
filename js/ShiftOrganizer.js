@@ -1,6 +1,7 @@
 var employeeID = getEmployeeID();
 
 function getEmployeeID(){
+	
 	if(localStorage.getItem("numberOfEmployees") == null){
 		localStorage.setItem("numberOfEmployees", "0");
 	return 0;
@@ -19,12 +20,12 @@ function getEmployeeID(){
         var user = $("#username").val();
         var pass = $("#password").val();
 
-        if(getUser(user, pass) == 0) //Admin
+		var result = getUser(user, pass);
+        if(result == 0) //Admin
         {
-            //alert("Got Admin!!!");
 			loadAdminPage(user);
         }
-        else if(getUser(user, pass) == 1) //user
+        else if(result == 1) //user
         {
             console.log("Got user: [" + user + "] Password: [" + pass +"]");
 	
@@ -32,7 +33,6 @@ function getEmployeeID(){
         }
         else //error
         {
-            alert("You are not registered. Please contact the Admin or try again.");
         }
 
     });
@@ -50,10 +50,19 @@ function getUser(user, pass){
     }
     else
     {	
-	for(var i=1; i<=employeeID; i++)
-		if(JSON.parse(localStorage.getItem(i.toString())).firstName == user)
-			return 1;	
-        return -1;
+	for(var i=1; i<=employeeID; i++){
+		if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
+			if(JSON.parse(localStorage.getItem(i.toString())).password == pass){
+				if(JSON.parse(localStorage.getItem(i.toString())).permissions == "on")
+					return 0;
+				return 1;
+			}
+			alert("Wrong password! please try again.");
+			return -1;
+		}
+	}
+	alert("You are not registered. Please contact the Admin or try again.");
+	return -1;
     }
 }
 
@@ -85,18 +94,18 @@ function loadAdminPage(user){
 	
 	$("#loginAddBtn").click(function(event){
 		for(var i=1; i<=employeeID; i++)
-			if(JSON.parse(localStorage.getItem(i.toString())).firstName == $("#fName").val()){
-				alert("User exists, pleae choose another username!");
+			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val()){
+				alert("User exists, please choose another username!");
 				return;
 		}		
 
 		var obj = new Object();
-		obj.firstName = $("#fName").val();
-		obj.lastName = $("#lName").val();	
+		obj.userName = $("#addUserName").val();
+		obj.password = $("#choosePass").val();	
 		obj.telephone = $("#icon_telephone").val();
+		obj.permissions = $('#permissions:checked').val();
 		obj.email = $("#email").val();
-
-		alert($('#permissions').val());
+		
 		alert("Employee Registered!!");
 		employeeID++;
 		localStorage.setItem(employeeID.toString(), JSON.stringify(obj));
@@ -106,7 +115,7 @@ function loadAdminPage(user){
 	$("#delBtn").click(function(event){
 		var userToDel = $("#delName").val();
 		for(var i=1; i<=employeeID; i++)
-			if(JSON.parse(localStorage.getItem(i.toString())).firstName == userToDel){
+			if(JSON.parse(localStorage.getItem(i.toString())).userName == userToDel){
 				localStorage.removeItem(i.toString());
 				for(var j=(i+1); j<= employeeID; j++)
 				{
@@ -204,7 +213,6 @@ function loadUserPage(user){
         var j = i % 10;
         i /= 10;
         i = Math.floor(i);
-        //alert("i: " + i + "j: " +j + "arr val: " + array[i][j]);
 
         //color of the setted shifts
         if(array[i][j] == 0){
@@ -228,15 +236,13 @@ function loadUserPage(user){
 		clearTable();
 	});
 
-
-	
 	$('#submitBtn').click(function(event){
 		var found = false;
 		var obj;
 		var foundID;
 		for(var i=1; i<=employeeID; i++)
 		{
-			if(JSON.parse(localStorage.getItem(i.toString())).firstName == user){
+			if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
 				obj = JSON.parse(localStorage.getItem(i.toString()));
 				obj.morning = [];
 				obj.noon = [];
@@ -278,9 +284,6 @@ function loadUserPage(user){
 		}
 	}
 }
-
-
-
 
 function returnDay(index)
 {
