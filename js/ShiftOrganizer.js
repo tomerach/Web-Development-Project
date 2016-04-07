@@ -1,7 +1,6 @@
 var employeeID = getEmployeeID();
 
 function getEmployeeID(){
-
 	if(localStorage.getItem("numberOfEmployees") == null){
 		localStorage.setItem("numberOfEmployees", "0");
 	return 0;
@@ -68,9 +67,9 @@ function loadAdminPage(user){
 	
 	$("#cont1").append('<div class="row center" id = "row1">');
 	
-	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light lime tooltipped modal-trigger" href="#modal2" data-position="left" data-delay="50" data-tooltip="Add new user" type="submit" name="action" id = "addBtn"></button>');
+	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light lime tooltipped modal-trigger2" href="#modal2" data-position="left" data-delay="50" data-tooltip="Add new user" type="submit" name="action" id = "addBtn"></button>');
 	$("#addBtn").append('<i class="material-icons">add</i>');
-	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light red tooltipped" data-position="top" data-delay="50" data-tooltip="Delete user" type="submit" name="action" id = "deleteBtn"></button>');
+	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light red tooltipped modal-trigger3" href="#modal3" data-position="top" data-delay="50" data-tooltip="Delete user" type="submit" name="action" id = "deleteBtn"></button>');
 	$("#deleteBtn").append('<i class="material-icons">delete</i>');
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="top" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
 	$("#clearBtn").append('<i class="material-icons">clear_all</i>');
@@ -81,12 +80,13 @@ function loadAdminPage(user){
 	
 
 	$('.tooltipped').tooltip({delay: 50});
-	$('.modal-trigger').leanModal();
-
+	$('.modal-trigger2').leanModal();
+	$('.modal-trigger3').leanModal();
+	
 	$("#loginAddBtn").click(function(event){
 		for(var i=1; i<=employeeID; i++)
 			if(JSON.parse(localStorage.getItem(i.toString())).firstName == $("#fName").val()){
-				alert("User exists, pleae choose another username");
+				alert("User exists, pleae choose another username!");
 				return;
 		}		
 
@@ -96,13 +96,32 @@ function loadAdminPage(user){
 		obj.telephone = $("#icon_telephone").val();
 		obj.email = $("#email").val();
 
-		//alert($('#permissions').val());
-		alert("Empoyee Registered!!");
+		alert($('#permissions').val());
+		alert("Employee Registered!!");
 		employeeID++;
 		localStorage.setItem(employeeID.toString(), JSON.stringify(obj));
 		localStorage.setItem("numberOfEmployees", employeeID.toString());
 	});
 
+	$("#delBtn").click(function(event){
+		var userToDel = $("#delName").val();
+		for(var i=1; i<=employeeID; i++)
+			if(JSON.parse(localStorage.getItem(i.toString())).firstName == userToDel){
+				localStorage.removeItem(i.toString());
+				for(var j=(i+1); j<= employeeID; j++)
+				{
+					var tmpItem = localStorage.getItem(j.toString());
+					localStorage.setItem(i.toString(), tmpItem);
+					i++;
+				}
+				localStorage.removeItem(i.toString());
+				employeeID--;
+				localStorage.setItem("numberOfEmployees", employeeID.toString());
+				alert("User deleted successfully!");
+				return;
+			}
+		alert("User doesn't exists, please choose another username and try again!");		
+	});
 }
 
 function loadUserPage(user){

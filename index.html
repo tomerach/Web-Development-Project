@@ -136,6 +136,7 @@
 			<form class="col s12">
 			  <div class="row">
 				<div class="input-field col s12">
+				<i class="material-icons prefix">account_circle</i>
 				  <input id="username" type="text" class="validate">
 				  <label for="username">User Name</label>
 				</div>
@@ -143,6 +144,7 @@
 			  
 			  <div class="row">
 				<div class="input-field col s12">
+					<i class="material-icons prefix">vpn_key</i>
 				  <input id="password" type="password" class="validate">
 				  <label for="password">Password</label>
 				</div>
@@ -185,7 +187,7 @@
 					  <div class="switch col s3">
 						<label>
 						  Off
-						  <input type="checkbox" id="permissions">
+						  <input id="permissions" type="checkbox">
 						  <span class="lever" id="permissionsSpan"></span>
 						  On
 						</label>
@@ -207,5 +209,24 @@
 		<div class="modal-footer">
 			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "loginAddBtn">SUBMIT</a>
 		</div>
+</div>
+	
+<div id="modal3" class="modal">
+	<div class="modal-content">
+			<h4>Delete user</h4>
+			<form class="col s12">
+			  <div class="row">
+				<div class="input-field col s6">
+				  <i class="material-icons prefix">account_circle</i>
+				  <input id="delName" type="text" class="validate">
+				  <label for="delName">UserName</label>
+				</div>
+			  </div>
+			</form>
 	</div>
+	<div class="modal-footer">
+		<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" id = "delBtn">DELETE</a>
+	</div>
+</div>
+
 </html>
