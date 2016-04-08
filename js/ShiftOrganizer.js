@@ -1,7 +1,7 @@
 var employeeID = getEmployeeID();
+$("#disconnect").hide();
 
 function getEmployeeID(){
-	
 	if(localStorage.getItem("numberOfEmployees") == null){
 		localStorage.setItem("numberOfEmployees", "0");
 	return 0;
@@ -65,6 +65,8 @@ function getUser(user, pass){
 }
 
 function loadAdminPage(user){
+	
+	$("#disconnect").show();
 	//Change page layout
 	$('#parallexPic').attr("src", "Pics/background2.jpg");
 	$("#index-banner").css('min-height', '200px');
@@ -133,6 +135,7 @@ function loadAdminPage(user){
 
 function loadUserPage(user){
 	
+	$("#disconnect").show();
 	//Change page layout
 	$('#parallexPic').attr("src", "Pics/background2.jpg");
 	$("#index-banner").css('min-height', '200px');
