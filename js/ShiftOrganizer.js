@@ -245,10 +245,15 @@ function loadUserPage(user){
 		{
 			if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
 				obj = JSON.parse(localStorage.getItem(i.toString()));
-				obj.shifts = new Object();
-				obj.shifts.morning = [];
-				obj.shifts.noon = [];
-				obj.shifts.evening = [];
+				if(typeof(obj.shifts) == undefined){
+					obj.shifts = new Object();
+					obj.shifts.morning = [];
+					obj.shifts.noon = [];
+					obj.shifts.evening = [];
+				}
+				else{
+					emptyPreviousShifts(obj);
+				}
 				foundID = i;
 				found = true;
 				break;
@@ -285,6 +290,15 @@ function loadUserPage(user){
 			}
 		}
 	}
+}
+
+function emptyPreviousShifts(obj){
+		while(obj.shifts.morning.length != 0)
+			obj.shifts.morning.pop();
+		while(obj.shifts.noon.length != 0)
+			obj.shifts.noon.pop();
+		while(obj.shifts.evening.length != 0)
+			obj.shifts.evening.pop();
 }
 
 function returnDay(index)
