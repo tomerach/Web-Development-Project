@@ -20,15 +20,13 @@ function getEmployeeID(){
         var user = $("#username").val();
         var pass = $("#password").val();
 
-		var result = getUser(user, pass);
-        if(result == 0) //Admin
+		var userType = getUser(user, pass);
+        if(userType == 0) //Admin
         {
 			loadAdminPage(user);
         }
-        else if(result == 1) //user
-        {
-            console.log("Got user: [" + user + "] Password: [" + pass +"]");
-	
+        else if(userType == 1) //user
+        {	
             loadUserPage(user);
         }
         else //error
@@ -244,9 +242,10 @@ function loadUserPage(user){
 		{
 			if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
 				obj = JSON.parse(localStorage.getItem(i.toString()));
-				obj.morning = [];
-				obj.noon = [];
-				obj.evening = [];
+				obj.shifts = new Object();
+				obj.shifts.morning = [];
+				obj.shifts.noon = [];
+				obj.shifts.evening = [];
 				foundID = i;
 				found = true;
 				break;
@@ -259,13 +258,13 @@ function loadUserPage(user){
 				for(var j = 0; j<7; j++){
 					if(i == 0)
 						if(array[i][j])
-							obj.morning.push(returnDay(j));
+							obj.shifts.morning.push(returnDay(j));
 					if(i == 1)
 						if(array[i][j])
-							obj.noon.push(returnDay(j));
+							obj.shifts.noon.push(returnDay(j));
 					if(i == 2)
 						if(array[i][j])
-							obj.evening.push(returnDay(j));
+							obj.shifts.evening.push(returnDay(j));
 				}
 			}
 			localStorage.setItem(foundID.toString(), JSON.stringify(obj));
