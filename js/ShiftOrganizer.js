@@ -155,6 +155,109 @@ function loadAdminPage(user){
 
 		//alert("User doesn't exists, please choose another username and try again!");		
 	});
+	
+	$("#dataZone").empty();
+    $("#dataZone").append('<table class = "shift-table">');
+
+    //Table Head
+    $(".shift-table").append('<thead class="thead-inverse">');
+    $(".thead-inverse").append('<tr id = "table-title">');
+    $("#table-title").append('<th><i>Shift</i></th>');
+    $("#table-title").append('<th>Sunday</th>');
+    $("#table-title").append('<th>Monday</th>');
+    $("#table-title").append('<th>Tuesday</th>');
+    $("#table-title").append('<th>Wednesday</th>');
+    $("#table-title").append('<th>Thursday</th>');
+    $("#table-title").append('<th>Friday</th>');
+    $("#table-title").append('<th>Saturday</th>');
+
+    //Table Body
+    $(".shift-table").append('<tbody id="tbot">');
+    $("#tbot").append('<tr id = "1">');
+    $("#1").append('<th scope="row">Morning</th>');
+    $("#1").append('<td id = "00"></td>');
+    $("#1").append('<td id = "01"></td>');
+    $("#1").append('<td id = "02"></td>');
+    $("#1").append('<td id = "03"></td>');
+    $("#1").append('<td id = "04"></td>');
+    $("#1").append('<td id = "05"></td>');
+    $("#1").append('<td id = "06"></td>');
+    $("#tbot").append('<tr id = "2">');
+    $("#2").append('<th scope="row">Noon</th>');
+    $("#2").append('<td id = "10"></td>');
+    $("#2").append('<td id = "11"></td>');
+    $("#2").append('<td id = "12"></td>');
+    $("#2").append('<td id = "13"></td>');
+    $("#2").append('<td id = "14"></td>');
+    $("#2").append('<td id = "15"></td>');
+    $("#2").append('<td id = "16"></td>');
+    $("#tbot").append('<tr id = "3">');
+    $("#3").append('<th scope="row">Nighet</th>');
+    $("#3").append('<td id = "20"></td>');
+    $("#3").append('<td id = "21"></td>');
+    $("#3").append('<td id = "22"></td>');
+    $("#3").append('<td id = "23"></td>');
+    $("#3").append('<td id = "24"></td>');
+    $("#3").append('<td id = "25"></td>');
+    $("#3").append('<td id = "26"></td>');
+	for(var i = 0; i<7; i++)
+	{
+		for(var j = 0; j<3; j++)
+			addOptions(i,j);
+	}
+	
+	$('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      //constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      //alignment: 'center' // Displays dropdown with edge aligned to the left of button
+    });
+	$('select').material_select();
+}
+
+function addOptions(i,j){
+	var cell_ID = ""+j+i;
+	$("#" + cell_ID).append('<div id="'+ cell_ID +'d" class="input-field col s3">');
+	$("#"+cell_ID+"d").append('<select multiple id="'+ cell_ID +'s">');
+	$("#"+cell_ID+"s").append('<option value="" disabled selected></option>');
+	console.log(employeeID);
+	for(var k=1; k <= employeeID; k++)
+	{
+		var obj = JSON.parse(localStorage.getItem(k.toString()));
+		console.log(JSON.stringify(obj));
+		
+		if(obj.shifts !== undefined)
+		{
+			console.log("in shifts");
+			var day = returnDay(i);
+			var name = obj.userName;
+			console.log(name);
+			switch(j)
+			{
+				case 0:
+					console.log("DAY IS: "+day);
+					if($.inArray(day, obj.shifts.morning) > -1)
+						appendOption(cell_ID, name);
+					break;
+				case 1:
+					if($.inArray(day, obj.shifts.noon) > -1)
+						appendOption(cell_ID, name);
+					break;
+				case 2:
+					if($.inArray(day, obj.shifts.evening) > -1)
+						appendOption(cell_ID, name);
+					break;
+			}
+		}
+	}
+	function appendOption(cell, name){
+		var counter = $("#"+cell+"s").children().length + 1;
+		$("#"+cell+"s").append('<option value="'+counter+'">'+name+'</option>');
+		console.log("appending "+name);
+	}
 }
 
 function loadUserPage(user){
@@ -276,39 +379,17 @@ function loadUserPage(user){
 		alert("END");
 	});
 	
-	function PrintElem(elem)
-    {
-        Popup($(elem).html());
-    }
-
-    function Popup(data) 
-    {
-        var mywindow = window.open('', 'my div', 'height=400,width=600');
-        mywindow.document.write('<html><head><title>my div</title>');
-        mywindow.document.write('<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>');
-		mywindow.document.write('<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
-
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10
-
-        mywindow.print();
-        mywindow.close();
-
-        return true;
-    }
-	
 	$('#submitBtn').click(function(event){
 		var found = false;
 		var obj;
 		var foundID;
 		for(var i=1; i<=employeeID; i++)
 		{
-			if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
+		
+			if(JSON.parse(localStorage.getItem(i.toString())).userName === user){
+				
 				obj = JSON.parse(localStorage.getItem(i.toString()));
-				if(typeof(obj.shifts) == undefined){
+				if(obj.shifts == undefined){
 					obj.shifts = new Object();
 					obj.shifts.morning = [];
 					obj.shifts.noon = [];
@@ -325,6 +406,7 @@ function loadUserPage(user){
 		
 		if(found)
 		{
+		
 			for (var i = 0; i < 3; i++) {
 				for(var j = 0; j<7; j++){
 					if(i == 0)
