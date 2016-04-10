@@ -132,23 +132,24 @@
   </body>
   
   <!-- Modal Structure -->
-	<div id="modal1" class="modal">
+	<div id="modal1" class="modal" collapse="false">
 		<div class="modal-content">
 			<h4>Log Into Service</h4>
 			<form class="col s12">
 			  <div class="row">
 				<div class="input-field col s12">
 				<i class="material-icons prefix">account_circle</i>
-				  <input id="username" type="text" class="validate" value="Clear" required>
-				  <label for="username">User Name</label>
+				  <input id="username" type="text" class="validate">
+				  <label for="username" data-error="User doesn't exists!">User Name</label>
 				</div>
 			  </div>
 			  
 			  <div class="row">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">vpn_key</i>
-				  <input id="password" type="password" class="validate" required>
-				  <label for="password">Password</label>
+				  <input id="password" type="password" class="validate">
+				  <label for="password" data-error="Wrong Password!">Password</label>
+				  
 				</div>
 			  </div>
 			  
@@ -168,7 +169,7 @@
 				<div class="input-field col s6">
 				  <i class="material-icons prefix">account_circle</i>
 				  <input id="addUserName" type="text" class="validate">
-				  <label for="addUserName">Choose UserName</label>
+				  <label for="addUserName" data-error = "User exists, please choose another!">Choose UserName</label>
 				</div>
 				<div class="input-field col s6">
 				  <i class="material-icons prefix">vpn_key</i>
@@ -221,7 +222,7 @@
 				<div class="input-field col s6">
 				  <i class="material-icons prefix">account_circle</i>
 				  <input id="delName" type="text" class="validate">
-				  <label for="delName">UserName</label>
+				  <label for="delName" data-error = "User doesn't exists">UserName</label>
 				</div>
 			  </div>
 			</form>

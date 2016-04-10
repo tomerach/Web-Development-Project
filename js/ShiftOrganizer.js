@@ -17,10 +17,12 @@ function getEmployeeID(){
 	$('.modal-trigger').leanModal();
 	
 	$("#loginBtn").click(function(event){
+		
         var user = $("#username").val();
         var pass = $("#password").val();
-
+		
 		var userType = getUser(user, pass);
+		
         if(userType == 0) //Admin
         {
 			loadAdminPage(user);
@@ -30,8 +32,15 @@ function getEmployeeID(){
             loadUserPage(user);
         }
         else //error
-        {
+        {	
+			
+			$("#username").val("");
+			$("#password").val("");
+			
+			$('#modal1').modal('show');
+
         }
+		
 
     });
 
@@ -55,11 +64,16 @@ function getUser(user, pass){
 					return 0;
 				return 1;
 			}
-			alert("Wrong password! please try again.");
+			$('#password').removeClass('valid');
+			$('#password').addClass('invalid');
+			//alert("Wrong password! please try again.");
+			
 			return -1;
 		}
 	}
-	alert("You are not registered. Please contact the Admin or try again.");
+	$("#username").removeClass('valid');
+	$("#username").addClass('invalid');
+	//alert("You are not registered. Please contact the Admin or try again.");
 	return -1;
     }
 }
@@ -95,9 +109,14 @@ function loadAdminPage(user){
 	$("#loginAddBtn").click(function(event){
 		for(var i=1; i<=employeeID; i++)
 			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val()){
-				alert("User exists, please choose another username!");
+				$('#addUserName').removeClass('valid');
+				$('#addUserName').addClass('invalid');
+				$("#addUserName").val("");
+				$('#modal2').modal('show');
+
+				//alert("User exists, please choose another username!");
 				return;
-		}		
+			}		
 
 		var obj = new Object();
 		obj.userName = $("#addUserName").val();
@@ -129,7 +148,12 @@ function loadAdminPage(user){
 				alert("User deleted successfully!");
 				return;
 			}
-		alert("User doesn't exists, please choose another username and try again!");		
+			$('#delName').removeClass('valid');
+			$('#delName').addClass('invalid');
+			$("#delName").val("");
+			$('#modal3').modal('show');
+
+		//alert("User doesn't exists, please choose another username and try again!");		
 	});
 }
 
@@ -237,6 +261,45 @@ function loadUserPage(user){
 		clearTable();
 	});
 
+	$("#printBtn").click(function(event){
+		var table = $('#dataZone');
+		alert("Printing");
+		//PrintElem(table);
+		
+		var dataZ = document.getElementById("dataZone");
+		newWindow = window.open("");
+		newWindow.document.write(dataZ.outerHTML);
+		newWindow.print();
+		newWindow.close();
+		
+		
+		alert("END");
+	});
+	
+	function PrintElem(elem)
+    {
+        Popup($(elem).html());
+    }
+
+    function Popup(data) 
+    {
+        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>my div</title>');
+        mywindow.document.write('<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>');
+		mywindow.document.write('<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+	
 	$('#submitBtn').click(function(event){
 		var found = false;
 		var obj;
@@ -278,7 +341,7 @@ function loadUserPage(user){
 			localStorage.setItem(foundID.toString(), JSON.stringify(obj));
 		}
 		alert("Thank you for your shifts. You can exit the browser now!");
-		clearTable();
+		//clearTable();
 	});
 
 	function clearTable()
