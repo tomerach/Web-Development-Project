@@ -14,7 +14,19 @@ function getEmployeeID(){
 
     $('.button-collapse').sideNav();
     $('.parallax').parallax();
-	$('.modal-trigger').leanModal();
+	
+	$('.modal-trigger').leanModal({
+		  dismissible: true, // Modal can be dismissed by clicking outside of the modal
+		  opacity: .5, // Opacity of modal background
+		  in_duration: 300, // Transition in duration
+		  out_duration: 200, // Transition out duration
+		  ready: function() { }, // Callback for Modal open
+		  complete: function() { } // Callback for Modal close
+		}
+	  );
+	
+	loadShiftsTable();	
+	$("#disconnect").hide();
 	
 	$("#loginBtn").click(function(event){
 		
@@ -25,24 +37,23 @@ function getEmployeeID(){
 		
         if(userType == 0) //Admin
         {
+			$("#modal1").closeModal();
 			loadAdminPage(user);
         }
         else if(userType == 1) //user
         {	
+			$("#modal1").closeModal();
             loadUserPage(user);
         }
         else //error
         {	
-			
-			$("#username").val("");
-			$("#password").val("");
-			
-			$('#modal1').modal('show');
+			//$("#modal1").closeModal();
+			//sleep(1);
+			//$("#modal1").openModal();
         }
     });
 
-	loadShiftsTable();	
-	$("#disconnect").hide();
+	
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
@@ -130,6 +141,8 @@ function getUser(user, pass){
     else
     {	
 	for(var i=1; i<=employeeID; i++){
+		if(JSON.parse(localStorage.getItem(i.toString())) === null)
+			continue;
 		if(JSON.parse(localStorage.getItem(i.toString())).userName == user){
 			if(JSON.parse(localStorage.getItem(i.toString())).password == pass){
 				if(JSON.parse(localStorage.getItem(i.toString())).permissions == "on")
@@ -138,6 +151,8 @@ function getUser(user, pass){
 			}
 			$('#password').removeClass('valid');
 			$('#password').addClass('invalid');
+			$("#password").val("");
+			$("#password").focus();
 			//alert("Wrong password! please try again.");
 			
 			return -1;
@@ -145,6 +160,8 @@ function getUser(user, pass){
 	}
 	$("#username").removeClass('valid');
 	$("#username").addClass('invalid');
+	$("#username").val("");
+	$("#username").focus();
 	//alert("You are not registered. Please contact the Admin or try again.");
 	return -1;
     }
@@ -180,25 +197,40 @@ function loadAdminPage(user){
 	$('.modal-trigger3').leanModal();
 	
 	$("#loginAddBtn").click(function(event){
+	
+		if($("#addUserName").val() === ""){
+			$('#addUserName').removeClass('valid');
+			$('#addUserName').addClass('invalid');
+			$("#addUserName").val("");
+			$("#addUserName").focus();
+			//$('#modal2').openModal();
+
+			//alert("User exists, please choose another username!");
+			return;
+		}	
 		for(var i=1; i<=employeeID; i++)
-			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val() || $("#addUserName").val() === ""){
+		{
+			if(JSON.parse(localStorage.getItem(i.toString())) === null)
+				continue;
+				
+			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val()){
 				$('#addUserName').removeClass('valid');
 				$('#addUserName').addClass('invalid');
 				$("#addUserName").val("");
 				$("#addUserName").focus();
-				$('#modal2').modal('show');
+				//$('#modal2').openModal();
 
 				//alert("User exists, please choose another username!");
 				return;
 			}		
-		
+		}
 		if($("#choosePass").val() === "")
 		{
 			$('#choosePass').removeClass('valid');
 			$('#choosePass').addClass('invalid');
 			$("#choosePass").val("");
 			$("#choosePass").focus();
-			$('#modal2').modal('show');
+			//$('#modal2').openModal();
 			return;
 		}	
 		
@@ -214,12 +246,14 @@ function loadAdminPage(user){
 		localStorage.setItem(employeeID.toString(), JSON.stringify(obj));
 		localStorage.setItem("numberOfEmployees", employeeID.toString());
 						$("#addUserName").val("");
-
+		$("#modal2").closeModal();
 	});
 
 	$("#delBtn").click(function(event){
 		var userToDel = $("#delName").val();
-		for(var i=1; i<=employeeID; i++)
+		for(var i=1; i<=employeeID; i++){
+			if(JSON.parse(localStorage.getItem(i.toString())) === null)
+				continue;
 			if(JSON.parse(localStorage.getItem(i.toString())).userName == userToDel){
 				localStorage.removeItem(i.toString());
 				for(var j=(i+1); j<= employeeID; j++)
@@ -233,12 +267,15 @@ function loadAdminPage(user){
 				localStorage.setItem("numberOfEmployees", employeeID.toString());
 				Materialize.toast("User deleted successfully!", 4000)
 				//alert("User deleted successfully!");
+				$("#modal3").closeModal();
 				return;
 			}
 			$('#delName').removeClass('valid');
 			$('#delName').addClass('invalid');
 			$("#delName").val("");
-			$('#modal3').modal('show');
+			$("#delName").focus();
+		}
+			//$('#modal3').openModal();
 		//alert("User doesn't exists, please choose another username and try again!");		
 	});
 	
