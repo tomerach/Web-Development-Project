@@ -183,7 +183,7 @@ function loadAdminPage(user){
 				$('#addUserName').removeClass('valid');
 				$('#addUserName').addClass('invalid');
 				$("#addUserName").val("");
-				$("#choosePass").focus();
+				$("#addUserName").focus();
 				$('#modal2').modal('show');
 
 				//alert("User exists, please choose another username!");
