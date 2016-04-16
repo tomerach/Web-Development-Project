@@ -1,5 +1,5 @@
 var employeeID = getEmployeeID();
-$("#disconnect").hide();
+
 
 function getEmployeeID(){
 	if(localStorage.getItem("numberOfEmployees") == null){
@@ -44,12 +44,83 @@ function getEmployeeID(){
 
     });
 
-
+	loadShiftsTable();
 	
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
+function loadShiftsTable(){
+	$("#dataZone").append('<h3 class="teal-text text-lighten-1"><b><center>UP COMMING SHIFTS</center></b></h3>');
+	$("#dataZone").append('<table class = "shift-table">');
 
+    //Table Head
+    $(".shift-table").append('<thead class="thead-inverse">');
+    $(".thead-inverse").append('<tr id = "table-title-main">');
+    $("#table-title-main").append('<th><i>Shift</i></th>');
+    $("#table-title-main").append('<th>Sunday</th>');
+    $("#table-title-main").append('<th>Monday</th>');
+    $("#table-title-main").append('<th>Tuesday</th>');
+    $("#table-title-main").append('<th>Wednesday</th>');
+    $("#table-title-main").append('<th>Thursday</th>');
+    $("#table-title-main").append('<th>Friday</th>');
+    $("#table-title-main").append('<th>Saturday</th>');
+
+    //Table Body
+    $(".shift-table").append('<tbody id="tbot">');
+    $("#tbot").append('<tr id = "1m">');
+    $("#1m").append('<th scope="row">Morning</th>');
+    $("#1m").append('<td id = "00w"></td>');
+    $("#1m").append('<td id = "01w"></td>');
+    $("#1m").append('<td id = "02w"></td>');
+    $("#1m").append('<td id = "03w"></td>');
+    $("#1m").append('<td id = "04w"></td>');
+    $("#1m").append('<td id = "05w"></td>');
+    $("#1m").append('<td id = "06w"></td>');
+    $("#tbot").append('<tr id = "2m">');
+    $("#2m").append('<th scope="row">Noon</th>');
+    $("#2m").append('<td id = "10w"></td>');
+    $("#2m").append('<td id = "11w"></td>');
+    $("#2m").append('<td id = "12w"></td>');
+    $("#2m").append('<td id = "13w"></td>');
+    $("#2m").append('<td id = "14w"></td>');
+    $("#2m").append('<td id = "15w"></td>');
+    $("#2m").append('<td id = "16w"></td>');
+    $("#tbot").append('<tr id = "3m">');
+    $("#3m").append('<th scope="row">Night</th>');
+    $("#3m").append('<td id = "20w"></td>');
+    $("#3m").append('<td id = "21w"></td>');
+    $("#3m").append('<td id = "22w"></td>');
+    $("#3m").append('<td id = "23w"></td>');
+    $("#3m").append('<td id = "24w"></td>');
+    $("#3m").append('<td id = "25w"></td>');
+    $("#3m").append('<td id = "26w"></td>');
+
+	for(var i = 0; i<7; i++)
+	{
+		for(var j = 0; j<3; j++)
+			addEmployees(i,j);
+	}
+	
+	function addEmployees(i,j){
+		var cell_ID = ""+j+i;
+		$("#" + cell_ID + "w").append('<div id="'+ cell_ID +'p" class="input-field col s3">');
+		
+		var obj = JSON.parse(localStorage.getItem('Shifts'));
+		var length = obj.givenShifts[j][i].length;
+		for(var k = 0; k< length; k++)
+		{
+			console.log("["+j+"][" +i +"]: " +obj.givenShifts[j][i][k]);
+
+			appendOption(cell_ID, obj.givenShifts[j][i][k]);
+		}
+		
+		function appendOption(cell, name){
+			$("#"+cell+"p").append(name+'</br>');
+			//console.log("appending "+name);
+		}
+	}
+
+}
 function getUser(user, pass){
     if(user === "Admin" && pass === "Admin")
     {
@@ -94,15 +165,16 @@ function loadAdminPage(user){
 	$("#addBtn").append('<i class="material-icons">add</i>');
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light red tooltipped modal-trigger3" href="#modal3" data-position="top" data-delay="50" data-tooltip="Delete user" type="submit" name="action" id = "deleteBtn"></button>');
 	$("#deleteBtn").append('<i class="material-icons">delete</i>');
-	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="top" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
+	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="right" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
 	$("#clearBtn").append('<i class="material-icons">clear_all</i>');
+	/*
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light grey tooltipped" data-position="right" data-delay="50" data-tooltip="Print your selection" type="submit" name="action" id = "printBtn"></button>');
 	$("#printBtn").append('<i class="material-icons">print</i>');
+	*/
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light green tooltipped" data-position="right" data-delay="50" data-tooltip="Submit your selection" type="submit" name="action" id = "submitBtn"></button>');
 	$("#submitBtn").append('<i class="material-icons">send</i>');
 	
 
-	$('.tooltipped').tooltip({delay: 50});
 	$('.modal-trigger2').leanModal();
 	$('.modal-trigger3').leanModal();
 	
@@ -124,11 +196,13 @@ function loadAdminPage(user){
 		obj.telephone = $("#icon_telephone").val();
 		obj.permissions = $('#permissions:checked').val();
 		obj.email = $("#email").val();
-		
-		alert("Employee Registered!!");
+		Materialize.toast("Employee Registered!!", 4000)
+		//alert("Employee Registered!!");
 		employeeID++;
 		localStorage.setItem(employeeID.toString(), JSON.stringify(obj));
 		localStorage.setItem("numberOfEmployees", employeeID.toString());
+						$("#addUserName").val("");
+
 	});
 
 	$("#delBtn").click(function(event){
@@ -145,7 +219,8 @@ function loadAdminPage(user){
 				localStorage.removeItem(i.toString());
 				employeeID--;
 				localStorage.setItem("numberOfEmployees", employeeID.toString());
-				alert("User deleted successfully!");
+				Materialize.toast("User deleted successfully!", 4000)
+				//alert("User deleted successfully!");
 				return;
 			}
 			$('#delName').removeClass('valid');
@@ -192,7 +267,7 @@ function loadAdminPage(user){
     $("#2").append('<td id = "15"></td>');
     $("#2").append('<td id = "16"></td>');
     $("#tbot").append('<tr id = "3">');
-    $("#3").append('<th scope="row">Nighet</th>');
+    $("#3").append('<th scope="row">Night</th>');
     $("#3").append('<td id = "20"></td>');
     $("#3").append('<td id = "21"></td>');
     $("#3").append('<td id = "22"></td>');
@@ -216,6 +291,48 @@ function loadAdminPage(user){
       //alignment: 'center' // Displays dropdown with edge aligned to the left of button
     });
 	$('select').material_select();
+	
+	$("#submitBtn").click(function(event){
+		if(localStorage.getItem("Shifts"))
+			localStorage.removeItem("Shifts");
+	
+		var obj = new Object();
+		obj.givenShifts = new Array(3);
+		obj.givenShifts[0] = new Array(7);
+		obj.givenShifts[1] = new Array(7);
+		obj.givenShifts[2] = new Array(7);
+		
+		for(var i = 0; i<7; i++)
+		{
+			obj.givenShifts[0][i] = [];
+			obj.givenShifts[1][i] = [];
+			obj.givenShifts[2][i] = [];
+		}
+		
+		for(var i = 0; i<3; i++)
+		{
+			for(var j = 0; j<7; j++)
+			{
+				//Selecting the related <select> to <td>
+				$('#'+i+j+'s :selected').each(function(k, selected){
+						if($(selected).text() !== "")
+							obj.givenShifts[i][j].push($(selected).text());
+				});
+				//alert(obj.givenShifts[i][j] + " number of elements: " + obj.givenShifts[i][j].length);
+			}
+		}
+		
+		localStorage.setItem("Shifts", JSON.stringify(obj));
+		Materialize.toast("Thank you", 4000)
+		//alert("Thank you");
+	});
+	
+	$("#clearBtn").click(function(){
+		$('.tooltipped').tooltip('remove');
+		loadAdminPage(user);
+	});
+	
+	$('.tooltipped').tooltip({delay: 50});
 }
 
 function addOptions(i,j){
@@ -260,6 +377,7 @@ function addOptions(i,j){
 	}
 }
 
+
 function loadUserPage(user){
 	
 	$("#disconnect").show();
@@ -274,8 +392,10 @@ function loadUserPage(user){
 	
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light orange tooltipped" data-position="left" data-delay="50" data-tooltip="Clear your selection" type="submit" name="action" id = "clearBtn"></button>');
 	$("#clearBtn").append('<i class="material-icons right">clear_all</i>');
+	/*
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light red tooltipped" data-position="right" data-delay="50" data-tooltip="Print your selection" type="submit" name="action" id = "printBtn"></button>');
 	$("#printBtn").append('<i class="material-icons right">print</i>');
+	*/
 	$("#row1").append('<button class="usrBttns btn-floating btn-large waves-effect waves-light green tooltipped" data-position="right" data-delay="50" data-tooltip="Submit your selection" type="submit" name="action" id = "submitBtn"></button>');
 	$("#submitBtn").append('<i class="material-icons">send</i>');
 
@@ -318,7 +438,7 @@ function loadUserPage(user){
     $("#2").append('<td id = "15"></td>');
     $("#2").append('<td id = "16"></td>');
     $("#tbot").append('<tr id = "3">');
-    $("#3").append('<th scope="row">Nighet</th>');
+    $("#3").append('<th scope="row">Night</th>');
     $("#3").append('<td id = "20"></td>');
     $("#3").append('<td id = "21"></td>');
     $("#3").append('<td id = "22"></td>');
@@ -363,7 +483,7 @@ function loadUserPage(user){
 	$("#clearBtn").click(function(event){
 		clearTable();
 	});
-
+/*
 	$("#printBtn").click(function(event){
 		var table = $('#dataZone');
 		alert("Printing");
@@ -378,7 +498,7 @@ function loadUserPage(user){
 		
 		alert("END");
 	});
-	
+	*/
 	$('#submitBtn').click(function(event){
 		var found = false;
 		var obj;
@@ -422,7 +542,8 @@ function loadUserPage(user){
 			}
 			localStorage.setItem(foundID.toString(), JSON.stringify(obj));
 		}
-		alert("Thank you for your shifts. You can exit the browser now!");
+		Materialize.toast("Thank you for your shifts. You can exit the browser now!", 4000)
+		//alert("Thank you for your shifts. You can exit the browser now!");
 		//clearTable();
 	});
 

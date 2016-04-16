@@ -75,6 +75,7 @@ footer.page-footer {
 
 td, th {
     padding: 0;
+	border-radius:130px;
 }
 td:hover {background-color: #f5f5f5}
 
