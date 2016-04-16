@@ -1,8 +1,8 @@
 # The Shift Organizer
 ![project logo (this one is taken from basecamp)](https://github.com/tomerach/Web-Development-Project/blob/master/Pics/logo.jpg)
-<h5>This is the final project in our "Wen Development" course.</h5>
+<h5>This is the final project in our "Web Development" course.</h5>
 
-The main purpose of the project is to make the shift organizig more efficient.
+The main purpose of the project is to make the shift organizing more efficient.
 
 There are 2 types of users:
 
@@ -43,7 +43,7 @@ You can clear all selections and submit selections.
 * style.css - our css designe
 * materialize.css - MATERIALIZE designe
 
-2) fons - The folder contain:
+2) fonts - The folder contain:
 * MATERIALIZE icons
 * "roboto" fonts
 
