@@ -179,7 +179,7 @@ function loadAdminPage(user){
 	
 	$("#loginAddBtn").click(function(event){
 		for(var i=1; i<=employeeID; i++)
-			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val()){
+			if(JSON.parse(localStorage.getItem(i.toString())).userName == $("#addUserName").val() || $("#addUserName").val() === ""){
 				$('#addUserName').removeClass('valid');
 				$('#addUserName').addClass('invalid');
 				$("#addUserName").val("");
@@ -188,7 +188,16 @@ function loadAdminPage(user){
 				//alert("User exists, please choose another username!");
 				return;
 			}		
-
+		
+		if($("#choosePass").val() === "")
+		{
+			$('#choosePass').removeClass('valid');
+			$('#choosePass').addClass('invalid');
+			$("#choosePass").val("");
+			$('#modal2').modal('show');
+			return;
+		}	
+		
 		var obj = new Object();
 		obj.userName = $("#addUserName").val();
 		obj.password = $("#choosePass").val();	
