@@ -42,6 +42,7 @@ function getEmployeeID(){
     });
 
 	loadShiftsTable();	
+	$("#disconnect").hide();
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
@@ -90,8 +91,8 @@ function loadShiftsTable(){
     $("#3m").append('<td id = "24w"></td>');
     $("#3m").append('<td id = "25w"></td>');
     $("#3m").append('<td id = "26w"></td>');
-	
-	if(JSON.parse(localStorage.getItem('Shifts')) == null) //validate that the admin setted the shifts.
+		
+	if(JSON.parse(localStorage.getItem('Shifts')) === null) //validate that the admin setted the shifts.
 		return;
 		
 	for(var i = 0; i<7; i++)
@@ -101,6 +102,7 @@ function loadShiftsTable(){
 	}
 	
 	function addEmployees(i,j){
+		
 		var cell_ID = ""+j+i;
 		$("#" + cell_ID + "w").append('<div id="'+ cell_ID +'p" class="input-field col s3">');
 		
@@ -352,6 +354,9 @@ function addOptions(i,j){
 	console.log(employeeID);
 	for(var k=1; k <= employeeID; k++)
 	{
+		if(JSON.parse(localStorage.getItem(k.toString())) === null)
+			continue;
+			
 		var obj = JSON.parse(localStorage.getItem(k.toString()));
 		console.log(JSON.stringify(obj));
 		
