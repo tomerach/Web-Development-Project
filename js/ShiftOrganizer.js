@@ -183,6 +183,7 @@ function loadAdminPage(user){
 				$('#addUserName').removeClass('valid');
 				$('#addUserName').addClass('invalid');
 				$("#addUserName").val("");
+				$("#choosePass").focus();
 				$('#modal2').modal('show');
 
 				//alert("User exists, please choose another username!");
@@ -194,6 +195,7 @@ function loadAdminPage(user){
 			$('#choosePass').removeClass('valid');
 			$('#choosePass').addClass('invalid');
 			$("#choosePass").val("");
+			$("#choosePass").focus();
 			$('#modal2').modal('show');
 			return;
 		}	
