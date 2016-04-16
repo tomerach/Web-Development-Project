@@ -38,19 +38,15 @@ function getEmployeeID(){
 			$("#password").val("");
 			
 			$('#modal1').modal('show');
-
         }
-		
-
     });
 
-	loadShiftsTable();
-	
+	loadShiftsTable();	
   }); // end of document ready
 })(jQuery); // end of jQuery name space
 
 function loadShiftsTable(){
-	$("#dataZone").append('<h3 class="teal-text text-lighten-1"><b><center>UP COMMING SHIFTS</center></b></h3>');
+	$("#dataZone").append('<h3 class="teal-text text-lighten-1"><b><center>UP COMING SHIFTS</center></b></h3>');
 	$("#dataZone").append('<table class = "shift-table">');
 
     //Table Head
@@ -94,7 +90,10 @@ function loadShiftsTable(){
     $("#3m").append('<td id = "24w"></td>');
     $("#3m").append('<td id = "25w"></td>');
     $("#3m").append('<td id = "26w"></td>');
-
+	
+	if(JSON.parse(localStorage.getItem('Shifts')) == null) //validate that the admin setted the shifts.
+		return;
+		
 	for(var i = 0; i<7; i++)
 	{
 		for(var j = 0; j<3; j++)
@@ -227,7 +226,6 @@ function loadAdminPage(user){
 			$('#delName').addClass('invalid');
 			$("#delName").val("");
 			$('#modal3').modal('show');
-
 		//alert("User doesn't exists, please choose another username and try again!");		
 	});
 	
@@ -542,7 +540,7 @@ function loadUserPage(user){
 			}
 			localStorage.setItem(foundID.toString(), JSON.stringify(obj));
 		}
-		Materialize.toast("Thank you for your shifts. You can exit the browser now!", 4000)
+		Materialize.toast("Thank you for your shifts. You can logout now!", 4000)
 		//alert("Thank you for your shifts. You can exit the browser now!");
 		//clearTable();
 	});
