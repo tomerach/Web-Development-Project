@@ -27,7 +27,9 @@ function getEmployeeID(){
 	
 	loadShiftsTable();	
 	$("#disconnect").hide();
-	
+	$("#logintoService").click(function(){
+		$("#username").focus();
+	});
 	$("#loginBtn").click(function(event){
 		
         var user = $("#username").val();
@@ -196,8 +198,16 @@ function loadAdminPage(user){
 	$('.modal-trigger2').leanModal();
 	$('.modal-trigger3').leanModal();
 	
-	$("#loginAddBtn").click(function(event){
+	$("#addBtn").click(function(){
+		$("#addUserName").focus();
+	});
 	
+	$("#deleteBtn").click(function(){
+		$("#delName").focus();
+	});
+	
+	$("#loginAddBtn").click(function(event){
+		
 		if($("#addUserName").val() === ""){
 			$('#addUserName').removeClass('valid');
 			$('#addUserName').addClass('invalid');
